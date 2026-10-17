@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit task</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Edit task</h1>
+    <form class="stack" method="post">
+      <label>Title
+        <input name="title" value="{{ task.title }}" required maxlength="120">
+      </label>
+      <label>Details
+        <textarea name="description" rows="4">{{ task.description }}</textarea>
+      </label>
+      <div class="row">
+        <button type="submit">Save changes</button>
+        <a class="ghost" href="{{ url_for('index') }}">Cancel</a>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

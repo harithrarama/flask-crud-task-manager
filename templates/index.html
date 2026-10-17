@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Task Manager</h1>
+
+    <form class="add" action="{{ url_for('add') }}" method="post">
+      <input name="title" placeholder="What needs doing?" required maxlength="120">
+      <input name="description" placeholder="Details (optional)">
+      <button type="submit">Add task</button>
+    </form>
+
+    {% if tasks %}
+    <ul>
+      {% for t in tasks %}
+      <li class="{{ 'done' if t.done }}">
+        <div class="text">
+          <strong>{{ t.title }}</strong>
+          {% if t.description %}<span>{{ t.description }}</span>{% endif %}
+        </div>
+        <div class="actions">
+          <form action="{{ url_for('toggle', task_id=t.id) }}" method="post">
+            <button class="ghost">{{ 'Reopen' if t.done else 'Mark done' }}</button>
+          </form>
+          <a class="ghost" href="{{ url_for('edit', task_id=t.id) }}">Edit</a>
+          <form action="{{ url_for('delete', task_id=t.id) }}" method="post"
+                onsubmit="return confirm('Delete this task?')">
+            <button class="ghost danger">Delete</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty">No tasks yet. Add your first one above.</p>
+    {% endif %}
+  </main>
+</body>
+</html>
